@@ -151,7 +151,7 @@ def get_cash():
 def get_position_size():
     position_pair = exchange.privateGetPositions()["result"][0]['future']
     if position_pair == pair:
-        position_size = exchange.privateGetPositions()["result"][0]['size']
+        position_size = exchange.privateGetPositions()["result"][0]['netSize']
         
     return float(position_size)
 
@@ -515,7 +515,7 @@ while True:
                     sell_price = bid_price + (3 * step_price)
                     
                     # SELL order execution
-                    if diff > base_size and sell_size > min_size:
+                    if diff > base_size and sell_size > min_size and sell_size < position_size:
                         sell_execute()
                     else:
                         print("Not Enough Balance to sell {}".format(pair))
